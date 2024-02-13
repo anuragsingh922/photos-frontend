@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 // import React, { useState } from 'react'
 import './Navbar.css'
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import {Link, NavLink} from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 
