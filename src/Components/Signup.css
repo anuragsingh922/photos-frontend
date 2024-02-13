@@ -1,0 +1,145 @@
+.main{
+    display: flex;
+    height: 100vh;
+    /* background-color: rgb(17, 28, 28); */
+}
+
+.first{
+    width: 60%;
+    color: aliceblue;
+}
+
+.logo{
+    color: rgb(8, 112, 114);
+    font-weight: 700;
+    width: fit-content;
+    font-size: 30px;
+    margin-top: 5px;
+    margin-left: 20px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.logolink{
+    color: rgb(8, 112, 114);
+}
+
+.heading{
+    font-size: 30px;
+    font-weight: 500;
+    color: black;
+    margin-top: 5px;
+}
+
+.formdiv{
+    margin-top: 20px; 
+    display: flex;
+    justify-content: center;
+}
+
+form input{
+    width: 350px;
+    padding: 10px;
+    border-radius: 15px;
+    border: 1px solid black;
+    outline: none;
+    font-size: 20px;
+    background-color: rgb(233, 253, 246);
+    /* display: flex; */
+    justify-content: center;
+}
+
+.email{
+    margin-bottom: 20px;
+    margin-left: 10px;
+}
+
+form input::placeholder{
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.signupbutton{
+    padding: 15px;
+    width: 150px;
+    border-radius: 10px;
+    border: none;
+    margin: auto;
+    margin-top: 30px;
+    align-items: center;
+    margin-left: 40%;
+    cursor: pointer;
+}
+
+.signupbuttondiv{
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+.second{
+
+    background: radial-gradient(657px 657px at 10% 90%,#3659a0 0,#dcf1f600 40%),radial-gradient(642px 642px at 82% 115%,#5f7db8 0,#dcf1f600 25%),linear-gradient(-73.25deg,#dcf2f7 7.43%,#59b9ca 94.82%);
+   
+
+    /* background-color: rgb(42, 20, 20); */
+    width: 40%;
+    color: white;
+    box-shadow: 2px 0px 10px black;
+
+}
+
+.secondheading{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 180px;
+    font-size: 30px;
+    font-weight: 500;
+    margin-left: 10px;
+    margin-right: 10px;
+    text-align: center;
+}
+
+.subhead{
+    align-items: center;
+    text-align: center;
+}
+
+.loginbuttondiv{
+    display: flex;
+    justify-content: center;
+    border: 2px solid black;
+    background-color: black;
+    width: 150px;
+    margin: auto;
+    margin-top: 30px;
+    padding: 10px;
+    border-radius: 10px;
+    color: rgb(255, 255, 255);
+}
+
+
+.signup{
+    width: 150px;
+    border-radius: 10px;
+    background-color: rgb(204, 203, 203);
+}
+
+.namein{
+    margin-left: 10px;
+}
+
+.password{
+    margin-left: 10px;
+}
+
+.dropdown{
+    margin-left: 10px;
+    width: 350px;
+    padding: 10px;
+    border-radius: 15px;
+    border: 1px solid black;
+    outline: none;
+    font-size: 20px;
+    background-color: rgb(233, 253, 246);
+    /* display: flex; */
+    justify-content: center;
+}

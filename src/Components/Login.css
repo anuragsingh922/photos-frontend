@@ -1,0 +1,90 @@
+.main{
+    display: flex;
+    height: 100vw;
+}
+
+.first{
+    width: 60%;
+}
+
+.logo{
+    color: rgb(8, 112, 114);
+    font-weight: 700;
+    font-size: 30px;
+    /* margin-top: 20px; */
+    margin-left: 20px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.heading{
+    font-size: 30px;
+    font-weight: 500;
+}
+
+.formdiv{
+    /* margin-top: 30px;  */
+    display: flex;
+    justify-content: center;
+}
+
+form input{
+    width: 350px;
+    padding: 10px;
+    border-radius: 15px;
+    border: 1px solid black;
+    outline: none;
+    font-size: 20px;
+    background-color: rgb(233, 253, 246);
+    display: flex;
+    justify-content: center;
+}
+
+.email{
+    margin-bottom: 20px;
+    
+}
+
+form input::placeholder{
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.loginbutton{
+    padding: 15px;
+    width: 150px;
+    border-radius: 10px;
+    cursor: pointer;
+    
+}
+
+.loginbuttondiv{
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    cursor: pointer;
+}
+.second{
+    background-color: aquamarine;
+    width: 40%;
+}
+
+.secondheading{
+    display: flex;
+    justify-content: center;
+    margin-top: 180px;
+    font-size: 30px;
+    font-weight: 500;
+}
+
+.signupbuttondiv{
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    font-style: none;
+    cursor: pointer;
+}
+
+.signup{
+    padding: 15px;
+    width: 150px;
+    border-radius: 10px;
+}
