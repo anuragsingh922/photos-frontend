@@ -11,17 +11,17 @@ function Main() {
 
   const [images , setImages] = useState([]);
 
-  useEffect(()=>{
-    const fetchImages = async () => {
-      try {
-        const res = await axios.get(`http://localhost:8080/api/photos/getphotos?email=${email}`);
-        console.log("Responsee:", res.data);
-        setImages(res.data);
-      } catch (error) {
-        console.error('Error fetching images:', error);
-      }
-    };
+  const fetchImages = async () => {
+    try {
+      const res = await axios.get(`http://localhost:8080/api/photos/getphotos?email=${email}`);
+      console.log("Responsee:", res.data);
+      setImages(res.data);
+    } catch (error) {
+      console.error('Error fetching images:', error);
+    }
+  };
 
+  useEffect(()=>{
     fetchImages();
   } , [isimage]);
 
@@ -43,6 +43,7 @@ function Main() {
         }
       });
       console.log('Image uploaded successfully');
+      await fetchImages();
     } catch (error) {
       console.error('Error uploading image:', error);
     }
