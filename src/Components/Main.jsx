@@ -25,16 +25,6 @@ function Main() {
     fetchImages();
   } , [isimage]);
 
-  // useEffect(() => {
-  //   const textToType = "Discover the closest e-waste disposal sites near you.";
-  //   if (index < textToType.length) {
-  //     setTimeout(() => {
-  //       setText(textToType.slice(0, index + 1));
-  //       setIndex(index + 1);
-  //     }, 50);
-  //   }
-  // }, [index]);
-
   const handleImageChange = (event) => {
     setisimage(event.target.files[0]);
     console.log(isimage);
