@@ -66,20 +66,17 @@ function Main() {
 
   return (
     <>
-      <div className="main">
 
         <div className="top">
 
-        <h3>Welcome Back {fname} {lname}!!!</h3>
+          <h3>Welcome Back {fname} {lname}!!!</h3>
 
-        <div className="addphoto"> 
-        <h3>Add new photo</h3>
-        <input type="file" onChange={handleImageChange}/>
-        {isimage?<button className="btn" onClick={handlesubmit}> Upload</button>:null}
-        </div>
-
+          <div className="addphoto"> 
+          <h3>Add new photo</h3>
+          <input type="file" onChange={handleImageChange}/>
+          {isimage?<button className="btn" onClick={handlesubmit}> Upload</button>:null}
+          </div>
         </div>        
-      </div>
 
       <div className="photos">
 

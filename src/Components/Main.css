@@ -16,17 +16,13 @@ body::-webkit-scrollbar-track {
     background: #ffffff;
 }
 
-.main{
-    /* padding-top: 40px; */
-    color: black;
-    font-size: 50px;
-}
 
 .top{
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 40%;
+    height: 20%;
+    border: 1px solid black;
     justify-content: space-between;
     width: 100vw;
 }
@@ -44,17 +40,20 @@ body::-webkit-scrollbar-track {
 
 .photos{
     display: flex;
-    justify-content: space-between;
     flex-wrap: wrap;
-    align-items: center;
-    width: 50%;
     width: 80%;
-    margin: auto;
+    height: 80vh;
+    margin: 20px auto;
+    border: 1px solid black;
+    padding: 10px;
 }
 
 .photo{
     width: 200px;
     height: 200px;
+    border: 1px solid black;
+    padding: 10px;
+    margin: 10px 10px;
     
 }
 
