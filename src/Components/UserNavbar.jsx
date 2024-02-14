@@ -44,7 +44,7 @@ function Navbar(props) {
     <div className="navbar">
       <div className="navfirst">
         <ul className="ul">
-            <Link to="/user"><li className="li name" >Photos</li></Link>
+        <p className='homeicon'>ZOMATO BLINKIT</p>
         </ul>
       </div>
 

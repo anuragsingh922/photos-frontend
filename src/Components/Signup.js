@@ -34,7 +34,7 @@ function Signup(props) {
     props.showalert("Sign Up Successfully " , 'success');
   }
   else{
-    props.showalert("Check Details Again" , 'danger')
+    props.showalert("Check Details Again" , 'Error')
   }
 
   }
@@ -46,7 +46,7 @@ function Signup(props) {
   return (
     <div className='main'>
     <div className="first">
-    <div className="logo"><Link to='/' className='logolink'>E-PARAS</Link></div>
+    <div className="logo"><Link to='/' className='logolink'>Zomato Blinkit</Link></div>
       <div className="heading">Registration</div>
       <div className="formdiv">
 
@@ -67,7 +67,7 @@ function Signup(props) {
     </div>
 
     <div className="second">
-      <div className="secondheading">Do not trash it, recycle your e-waste and make a difference !!</div>
+      
       <h2 className="subhead">Already have a account</h2>
       <Link to='/login'><div className='loginbuttondiv'>Login</div></Link>
     </div>

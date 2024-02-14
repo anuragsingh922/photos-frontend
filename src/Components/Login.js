@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import './Signup.css'
+// import "./Login.css"
 import {Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 
@@ -50,7 +51,7 @@ function Login(props) {
   return (
     <div className='main'>
       <div className="first">
-      <div className="logo"><Link to='/' className='logolink'>E-PARAS</Link></div>
+      <div className="logo"><Link to='/' className='logolink'>Zomato Blinkit</Link></div>
         <div className="heading">Welcome, Login to your account</div>
         <div className="formdiv">
 

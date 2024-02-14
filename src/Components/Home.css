@@ -1,0 +1,22 @@
+h1{
+    text-align: center;
+}
+
+h3{
+    text-align: center;
+}
+
+body{
+    background-color: blanchedalmond;
+}
+
+.homepage{
+    margin-top: 100px;
+}
+
+.imageU{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+}

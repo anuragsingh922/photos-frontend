@@ -28,7 +28,8 @@ function Navbar(props) {
     <div className="navbar">
       <div className="navfirst">
         <ul className="ul">
-            <Link to={localStorage.getItem("token")?"/user":"/"}><li className="li name" >E-PARAS</li></Link>
+            {/* <button className='homeicon'><Link to={localStorage.getItem("token")?"/user":"/"}><li className="li name" >Blinkit</li></Link></button>*/}
+            <p className='homeicon'>ZOMATO BLINKIT</p>
         </ul>
       </div>
 

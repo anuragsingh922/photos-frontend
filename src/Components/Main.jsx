@@ -51,10 +51,6 @@ function Main() {
 
   }
   
-
-
-  
-
   return (
     <>
 
@@ -78,7 +74,7 @@ function Main() {
         ))}
 
       </div>
-      <footer>© Sudhanshu </footer>
+      <footer className="bottom">© Sudhanshu </footer>
 
     </>
   );

@@ -8,11 +8,12 @@
 }
 
 .logo{
+    text-align: center;
     color: rgb(8, 112, 114);
     font-weight: 700;
     font-size: 30px;
     /* margin-top: 20px; */
-    margin-left: 20px;
+    /* margin-left: 20px; */
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 

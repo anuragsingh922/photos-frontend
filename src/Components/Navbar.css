@@ -13,7 +13,7 @@
     backdrop-filter: blur(10px);
     z-index: 100;
     flex-wrap: auto;
-    background-color: rgb(232, 232, 232);
+    background-color: rgb(33, 30, 30);
 }
 .ul{
     display: flex;
@@ -33,12 +33,12 @@
 
 .selected{
     color: black;
-    /* animation: anurag2; */
+    /* animation: sudhanshu2; */
     animation-duration: 3s;
     animation-fill-mode: forwards;
 }
 
-@keyframes anurag2 {
+@keyframes sudhanshu2 {
     from{
         transform: translateY(0);
     }
@@ -137,12 +137,12 @@
 }
 
 .hoverli:hover > .liicon{
-    animation: anurag;
+    animation: sudhanshu;
     animation-duration: 0.5s;
     animation-fill-mode: forwards;
 }
 
-@keyframes anurag {
+@keyframes sudhanshu {
     from{
         rotate: 0deg;
     }
@@ -226,12 +226,16 @@
     font-size: 18px;
 }
 
-
-.username{
-    margin: 0px 10px 0px 0px;
-    font-size: large;
-}
-
 .logout{
     margin: 0px 10px 0px 0px;
+}
+
+.homeicon{
+    color: aliceblue;
+}
+
+.username{
+    color: aliceblue;
+    margin: 0px 10px 0px 0px;
+    font-size: large;
 }

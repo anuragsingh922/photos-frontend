@@ -11,11 +11,12 @@
 
 .logo{
     color: rgb(8, 112, 114);
+    text-align: center;
     font-weight: 700;
-    width: fit-content;
+    /* width: fit-content; */
     font-size: 30px;
     margin-top: 5px;
-    margin-left: 20px;
+    /* margin-left: 20px; */
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
@@ -24,6 +25,7 @@
 }
 
 .heading{
+    text-align: center;
     font-size: 30px;
     font-weight: 500;
     color: black;
@@ -67,19 +69,25 @@ form input::placeholder{
     align-items: center;
     margin-left: 40%;
     cursor: pointer;
+    background-color: black;
+    color: white;
+
 }
 
 .signupbuttondiv{
+    color: white;
     display: flex;
     justify-content: center;
     margin-top: 30px;
+    background-color: black;
 }
 .second{
 
     background: radial-gradient(657px 657px at 10% 90%,#3659a0 0,#dcf1f600 40%),radial-gradient(642px 642px at 82% 115%,#5f7db8 0,#dcf1f600 25%),linear-gradient(-73.25deg,#dcf2f7 7.43%,#59b9ca 94.82%);
-   
-
-    /* background-color: rgb(42, 20, 20); */
+   max-height: 80%;
+    margin-top: 10px;
+    margin-right: 10px;
+    
     width: 40%;
     color: white;
     box-shadow: 2px 0px 10px black;
@@ -99,6 +107,7 @@ form input::placeholder{
 }
 
 .subhead{
+    margin-top: 30%;
     align-items: center;
     text-align: center;
 }
