@@ -63,7 +63,7 @@ function Main() {
           <h3>Welcome Back {fname} {lname}!!!</h3>
 
           <div className="addphoto"> 
-          <h3>Add new photo</h3>
+          <h3>Add New Photo</h3>
           <input type="file" onChange={handleImageChange}/>
           {isimage?<button className="btn" onClick={handlesubmit}> Upload</button>:null}
           </div>
