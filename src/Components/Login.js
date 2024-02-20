@@ -11,7 +11,7 @@ function Login(props) {
 
   const submit = async(e)=>{
     e.preventDefault();
-    const responce = await fetch("http://localhost:8080/api/auth/login",{
+    const responce = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/auth/login`,{
         method: 'POST',
         headers : {
         "Accept": "application/json",

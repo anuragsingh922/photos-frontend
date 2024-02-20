@@ -13,9 +13,23 @@ function Main() {
 
   const fetchImages = async () => {
     try {
-      const res = await axios.get(`http://localhost:8080/api/photos/getphotos?email=${email}`);
+      const res = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/api/photos/getphotos`,
+        {
+            email: email
+        },
+        {
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*"
+            }
+        }
+    );
       console.log("Responsee:", res.data);
-      setImages(res.data);
+      if(res.data){
+        setImages(res.data);
+      }
     } catch (error) {
       console.error('Error fetching images:', error);
     }
@@ -37,7 +51,7 @@ function Main() {
     setisimage(false);
 
     try {
-      await axios.post('http://localhost:8080/api/photos/upload', formData, {
+      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/photos/upload`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         }
@@ -69,16 +83,20 @@ function Main() {
           </div>
         </div>        
 
-      <div className="photos">
+      {images && images.length >0 ?<div className="photos">
 
       {images.map((image, index) => (
           <div key={image._id} className="photo">
-            <img src={`http://localhost:8080/${image.filepath}`} alt={image.filename} />
+            <img src={`${process.env.REACT_APP_BACKEND_URL}/${image.filepath}`} alt={image.filename} />
           </div>
         ))}
 
+      </div> : 
+      <div className="photos_empty">
+          <h3>No Photo to display</h3>
       </div>
-      <footer>© Sudhanshu </footer>
+      }
+      <footer className="footer">© Sudhanshu </footer>
 
     </>
   );

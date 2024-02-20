@@ -28,7 +28,7 @@ function Navbar(props) {
     <div className="navbar">
       <div className="navfirst">
         <ul className="ul">
-            <Link to={localStorage.getItem("token")?"/user":"/"}><li className="li name" >E-PARAS</li></Link>
+            <Link to={localStorage.getItem("token")?"/user":"/"}><li className="li name" >Photos</li></Link>
         </ul>
       </div>
 

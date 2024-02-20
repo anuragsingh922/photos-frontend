@@ -22,9 +22,9 @@ body::-webkit-scrollbar-track {
     justify-content: center;
     align-items: center;
     height: 20%;
-    border: 1px solid black;
     justify-content: space-between;
-    width: 100vw;
+    width: calc(100%) - 100px;
+    padding: 0px 20px;
 }
 
 .addphoto{
@@ -41,24 +41,55 @@ body::-webkit-scrollbar-track {
 .photos{
     display: flex;
     flex-wrap: wrap;
+    max-width: 91%;
+    width: fit-content;
+    height: 80vh;
+    margin: 20px auto;
+    border: 1px solid black;
+    padding: 10px;
+    overflow: scroll;
+    border-radius: 10px;
+}
+
+
+.photos::-webkit-scrollbar {
+    width: 3px;
+    display: none;
+}
+
+.photos_empty{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 80%;
     height: 80vh;
     margin: 20px auto;
     border: 1px solid black;
     padding: 10px;
+    border-radius: 10px;
+    color: aquamarine;
+    font-size: 100px;
+    background-image: linear-gradient(rgb(195, 166, 166) , rgb(108, 108, 163) , rgb(98, 148, 98));
 }
 
 .photo{
     width: 200px;
     height: 200px;
-    border: 1px solid black;
-    padding: 10px;
     margin: 10px 10px;
-    
+    margin: 20px 30px;
 }
 
 .photo img{
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
+    box-shadow: 1px 1px 10px black;
+    border-radius: 10px;
+}
+
+footer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0px;
 }

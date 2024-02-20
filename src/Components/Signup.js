@@ -15,7 +15,7 @@ function Signup(props) {
 
   const submit = async(e)=>{
     e.preventDefault();
-    const responce = await fetch("http://localhost:8080/api/auth/signup",{
+    const responce = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/auth/signup`,{
       method:'POST',
       headers : {
         'Content-Type' : 'application/json'
@@ -31,10 +31,10 @@ function Signup(props) {
   if(json.success){
     localStorage.setItem('token' , json.authtoken)
     navigate('/login');
-    props.showalert("Sign Up Successfully " , 'success');
+    props.showalert("Sign Up Successfully!" , 'success');
   }
   else{
-    props.showalert("Check Details Again" , 'danger')
+    props.showalert("Check Details Again!" , 'danger')
   }
 
   }
@@ -59,7 +59,7 @@ function Signup(props) {
           <input type="password" id='cpassword' name='cpassword' className="password" placeholder='Confirm Password' onChange={onChange}/>
           <br></br>
           <br></br>
-          <input type="number" className="namein" id='phone' name='phone' placeholder='Phone Number' onChange={onChange} />
+          <input type="text" className="namein" id='phone' name='phone' placeholder='Phone Number' onChange={onChange} />
           
           <button className='signupbutton' type="submit">Sign Up</button>
         </form>
@@ -67,7 +67,6 @@ function Signup(props) {
     </div>
 
     <div className="second">
-      <div className="secondheading">Do not trash it, recycle your e-waste and make a difference !!</div>
       <h2 className="subhead">Already have a account</h2>
       <Link to='/login'><div className='loginbuttondiv'>Login</div></Link>
     </div>

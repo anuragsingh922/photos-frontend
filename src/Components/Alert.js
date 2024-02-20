@@ -9,7 +9,7 @@ export default function Alert(props) {
     }
   return (
     props.alert &&  <div className={`alert alert-${props.alert.type}`} role ="alert">
-   {capital(props.alert.type)}: {props.alert.message}
+    {props.alert.message}
   {/* <button className="btn-close mx-4" type='button' data-bs-dismiss='alert' aria-label='close'></button> */}
 </div>
   )
