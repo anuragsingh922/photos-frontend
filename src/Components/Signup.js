@@ -14,6 +14,7 @@ function Signup(props) {
   const navigate = useNavigate();
 
   const submit = async(e)=>{
+    try{
     e.preventDefault();
     const responce = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/auth/signup`,{
       method:'POST',
@@ -21,7 +22,7 @@ function Signup(props) {
         'Content-Type' : 'application/json'
       },
 
-      body : JSON.stringify({fname:signupdata.fname , lname:signupdata.lname , email: signupdata.email , password: signupdata.password , phone: signupdata.phone})
+      body : JSON.stringify({email: signupdata.email , password: signupdata.password , fname : signupdata.fname , lname : signupdata.lname , phone : signupdata.phone})
 
   });
 
@@ -36,6 +37,9 @@ function Signup(props) {
   else{
     props.showalert("Check Details Again!" , 'danger')
   }
+}catch(err){
+  console.error("Error during signing up." , err);
+}
 
   }
 

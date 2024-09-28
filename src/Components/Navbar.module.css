@@ -1,26 +1,25 @@
-.navbar{
-    /* border-bottom: 2px solid black; */
+.navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /* margin-bottom: 100px; */
     height: 60px;
-    top: 0;
-    position: fixed;
-    width: 100%;
+    width: 100vw;
     /* background-color: white; */
     background: transparent;
+    position: fixed;
+    top: 0;
     backdrop-filter: blur(10px);
     z-index: 100;
     flex-wrap: auto;
     background-color: rgb(232, 232, 232);
 }
-.ul{
+
+.ul {
     display: flex;
-    list-style: none; 
+    list-style: none;
 }
 
-.li{
+.li {
     margin-right: 30px;
     display: flex;
     align-items: center;
@@ -29,9 +28,11 @@
     font-size: 15px;
     padding: 20px 0px;
     color: rgb(70, 69, 69);
+    font-size: 20px;
+    margin-left: 30px;
 }
 
-.selected{
+.selected {
     color: black;
     /* animation: anurag2; */
     animation-duration: 3s;
@@ -39,24 +40,30 @@
 }
 
 @keyframes anurag2 {
-    from{
+    from {
         transform: translateY(0);
     }
-    to{
+
+    to {
         transform: translateY(3px);
     }
 }
 
 
-.buttonlogin{
+.buttonlogin {
     border: 1px solid black;
     border-radius: 10px;
     padding: 10px;
     margin-right: 10px;
     overflow: none;
+    cursor: pointer;
 }
 
-.buttonsign{
+.buttonlogin:hover{
+    box-shadow: 0px 0px 4px black;
+}
+
+.buttonsign {
     border: 1px solid black;
     border-radius: 10px;
     padding: 10px;
@@ -65,7 +72,7 @@
     overflow: none;
 }
 
-.name{
+.name {
     color: rgb(8, 112, 114);
     font-weight: 700;
     font-size: 20px;
@@ -77,22 +84,24 @@
 }
 
 @keyframes name {
-    0%{
+    0% {
         opacity: 85%;
     }
-    50%{
+
+    50% {
         opacity: 100%;
     }
-    100%{
+
+    100% {
         opacity: 85%;
     }
 }
 
-.hove{
+.hove {
     display: none;
 }
 
-.hoverli:hover > .hove{
+.hoverli:hover>.hove {
     display: block;
     animation: hove;
     animation-duration: .5s;
@@ -104,7 +113,7 @@
     top: 0;
     height: fit-content;
     /* border-bottom-style: ridge; */
-    box-shadow: 0px 0px 3px rgb(60, 59, 59); 
+    box-shadow: 0px 0px 3px rgb(60, 59, 59);
     color: black;
     z-index: 1;
     background-color: rgb(228, 227, 227);
@@ -112,18 +121,19 @@
 }
 
 @keyframes hove {
-    from{
+    from {
         opacity: 0;
     }
-    to{
+
+    to {
         opacity: 100;
     }
 }
 
 
-.hover{
+.hover {
     display: flex;
-    position:fixed;
+    position: fixed;
     margin-top: 122px;
     /* border-top: 1px solid black; */
     width: 100vw;
@@ -131,41 +141,43 @@
     margin-right: 100px;
 }
 
-.liicon{
+.liicon {
     width: 0.5px;
     margin-left: 2px;
 }
 
-.hoverli:hover > .liicon{
+.hoverli:hover>.liicon {
     animation: anurag;
     animation-duration: 0.5s;
     animation-fill-mode: forwards;
 }
 
 @keyframes anurag {
-    from{
+    from {
         rotate: 0deg;
     }
-    to{
+
+    to {
         rotate: 180deg;
     }
 }
 
 @keyframes leave {
-    from{
+    from {
         rotate: 180deg;
     }
-    to{
+
+    to {
         rotate: 0deg;
     }
 }
 
 
-.hovefirst{
+.hovefirst {
     width: fit-content;
 }
 
-.whycarehover{
+.whycarehover {
     display: flex;
     margin-left: 40px;
     margin-top: 40px;
@@ -173,7 +185,7 @@
     height: 300px;
 }
 
-.hello{
+.hello {
     width: 200px;
     margin-left: 20px;
     height: 100px;
@@ -181,20 +193,20 @@
     border-radius: 20px;
 }
 
-.hello:hover{
+.hello:hover {
     background-color: rgb(177, 176, 176);
 }
 
-.hello1{
+.hello1 {
     margin-bottom: 10px;
 }
 
-.muted{
+.muted {
     color: rgb(83, 83, 83);
     margin-top: 10px;
 }
 
-.statelist{
+.statelist {
     padding: 10px;
     border-radius: 5px;
     margin-top: 10px;
@@ -203,23 +215,23 @@
     cursor: pointer;
 }
 
-.statelist:hover{
+.statelist:hover {
     background-color: rgb(195, 193, 193);
 }
 
-.hovefirst{
+.hovefirst {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
     height: 400px;
 }
 
-.navsecondul{
+.navsecondul {
     display: flex;
     align-items: center;
 }
 
-.avatar{
+.avatar {
     margin-right: 10px;
     display: flex;
     align-items: center;
@@ -227,11 +239,11 @@
 }
 
 
-.username{
+.username {
     margin: 0px 10px 0px 0px;
     font-size: large;
 }
 
-.logout{
+.logout {
     margin: 0px 10px 0px 0px;
 }

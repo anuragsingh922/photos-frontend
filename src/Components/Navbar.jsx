@@ -1,47 +1,33 @@
-import React from 'react'
-// import React, { useState } from 'react'
-import './Navbar.css'
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import {Link, NavLink} from 'react-router-dom';
-import { useNavigate } from 'react-router-dom'
+import React from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import styles from "./Navbar.module.css";  // Import CSS Module
 
 function Navbar(props) {
-
-  // const leave = ()=>{
-  //     const arrow = document.getElementById('arrowicon');
-
-  //     arrow.animate([
-  //         { transform: 'rotate(180deg)'},
-  //         { transform: 'rotate(0deg)'}
-  // ], {
-  //   duration: 1000/2,
-  //       }
-  //     )
-  // }
-
   const navigate = useNavigate();
 
+  return (
+    <>
+      <div className={styles.navbar}>
+        <div className={styles.navfirst}>
+          <ul className={styles.ul}>
+            {/* <NavLink to={localStorage.getItem("token") ? "/user" : "/"} style={{ textDecoration: "none" }}><li className="li name" style={{ textDecoration: "none" }}>Photos</li></NavLink> */}
+            <li className={styles.li}>PhotoCloud</li>
+          </ul>
+        </div>
 
-
-
-  return (<>
-    <div className="navbar">
-      <div className="navfirst">
-        <ul className="ul">
-            <Link to={localStorage.getItem("token")?"/user":"/"}><li className="li name" >Photos</li></Link>
-        </ul>
+        <div className={styles.navsecond}>
+          <ul className={styles.navsecondul}>
+            <NavLink to="/login" className={styles.link}>
+              <button className={styles.buttonlogin}>Login</button>
+            </NavLink>
+            <NavLink to="/signup">
+              <button className={styles.buttonsign}>Sign Up</button>
+            </NavLink>
+          </ul>
+        </div>
       </div>
-
-
-      <div className="navsecond">
-        <ul className="navsecondul">
-            <NavLink to="/login" className='link'><button className='buttonlogin'>Login</button></NavLink>
-            <NavLink to="/signup"><button className='buttonsign'>Sign Up</button></NavLink>
-        </ul>
-      </div>
-      </div>
-      </>
-  )
+    </>
+  );
 }
 
-export default Navbar
+export default Navbar;

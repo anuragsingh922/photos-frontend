@@ -10,6 +10,7 @@ function Login(props) {
   const navigate = useNavigate();
 
   const submit = async(e)=>{
+    try{
     e.preventDefault();
     const responce = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/auth/login`,{
         method: 'POST',
@@ -36,6 +37,9 @@ function Login(props) {
     else{
       props.showalert("Invalid Usename or passsword" , 'danger');
     }
+  }catch(err){
+    console.log("Error during login ", err);
+  }
 
   }
 
@@ -57,7 +61,7 @@ function Login(props) {
 
           <form onSubmit={submit} >
             <input type="email" id='email' className="email" name='email' onChange={onChange} value={logindata.email} placeholder='Email' /><br />
-            <input type="text" id='password' className="password" name='password' onChange={onChange} value={logindata.password} placeholder='Password' /><br/><br/>
+            <input type="password" id='password' className="password" name='password' onChange={onChange} value={logindata.password} placeholder='Password' /><br/><br/>
             <button className='loginbuttondiv'  type="submit" >Login</button>
           </form>
 
