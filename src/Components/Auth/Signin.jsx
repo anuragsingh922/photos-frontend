@@ -30,7 +30,7 @@ export default function Signin(props) {
         localStorage.setItem('username' , json.user.fname);
         localStorage.setItem('userlastname' , json.user.lname);
         localStorage.setItem('useremail' , json.user.email);
-        navigate("/user");
+        navigate("/server");
         props.showalert("Login Successfully" , 'success');
         // e.sendStatus(200);
     }
@@ -49,14 +49,6 @@ export default function Signin(props) {
   }
     return (
       <>
-        {/*
-          This example requires updating your template:
-  
-          ```
-          <html class="h-full bg-white">
-          <body class="h-full">
-          ```
-        */}
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <img

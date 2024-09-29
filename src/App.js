@@ -12,6 +12,7 @@ import Signup from "./Components/Auth/Signup";
 import View from "./Components/View/View";
 import NotFound from "./Components/404/NotFound";
 import ContactUs from "./Components/ContactUs/ContactUs";
+import ViewS from "./Components/View/ServerSideUploading";
 
 function App() {
   const [alert, setalert] = useState(null);
@@ -42,12 +43,23 @@ function App() {
           />
           <Route
             exact
-            path="/user"
+            path="/stream"
             element={
               <>
                 <UserNavbar />
                 {/* <Main showalert={showalert} /> */}
                 <View showalert={showalert} />
+              </>
+            }
+          />
+          <Route
+            exact
+            path="/server"
+            element={
+              <>
+                <UserNavbar />
+                {/* <Main showalert={showalert} /> */}
+                <ViewS showalert={showalert} />
               </>
             }
           />

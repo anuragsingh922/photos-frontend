@@ -3,7 +3,7 @@ import axios from "axios";
 import ReactLoading from "react-loading";
 import { ReactComponent as FileUpload } from "../../Assets/SVG/FileUpload.svg";
 
-export default function View() {
+export default function ViewS() {
   const [fname, setfname] = useState(localStorage.getItem("username"));
   const [lname, setlname] = useState(localStorage.getItem("userlastname"));
   const [email, setemail] = useState(localStorage.getItem("useremail"));
@@ -15,25 +15,25 @@ export default function View() {
   const [uploading, setuploading] = useState(false);
   const isInitialMount = useRef(true);
 
-  const fetchImages2 = async () => {
+  const fetchImages = async () => {
     // `${process.env.REACT_APP_BACKEND_URL}/api/photos/getphotos`,
     try {
       seterr("");
+      console.log("Fetching Files");
       const res = await axios.get(
-        `${process.env.REACT_APP_BACKEND_URL}/api/files`,
+        `${process.env.REACT_APP_BACKEND_URL}/api/files/server`,
         {
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
             authorization: localStorage.getItem("token"),
           },
         }
       );
       console.log("Responsee:", res.data);
-      console.log("Response:", res.data);
-      if (res.data && res.data.files) {
-        setImages(res.data.files); // Set the files received from the backend
+      const items = res?.data;
+      if (items) {
+        setImages(items); // Set the files received from the backend
         setuploading(false);
       } else {
         seterr("Not Image Found.");
@@ -41,70 +41,6 @@ export default function View() {
     } catch (error) {
       console.error("Error fetching images:", error);
       seterr(error);
-    }
-  };
-
-  const fetchImages = async () => {
-    // `${process.env.REACT_APP_BACKEND_URL}/api/photos/getphotos`,
-    try {
-      setImages([]);
-      const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/api/files`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            authorization: localStorage.getItem("token"),
-          },
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(`Error fetching images: ${response.statusText}`);
-      }
-
-      // Use the readable stream from the response to process the data
-      // console.log("Responsee:", res.data);
-      // console.log("Response:", res.data);
-      // if (res.data && res.data.files) {
-      //   setImages(res.data.files); // Set the files received from the backend
-      // }
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder("utf-8");
-      let partialChunk = "";
-
-      while (true) {
-        const { value, done } = await reader.read();
-        if (done) break;
-
-        // Decode the chunk and accumulate it
-        const chunk = decoder.decode(value, { stream: true });
-        partialChunk += chunk;
-
-        // Split chunks by newlines to handle NDJSON format or custom delimiters
-        const lines = partialChunk.split("\n");
-
-        for (let i = 0; i < lines.length - 1; i++) {
-          try {
-            // Parse each complete line and add to images
-            const parsedChunk = JSON.parse(lines[i]);
-            console.log("Received File Data:", parsedChunk);
-
-            // Update the state with each new file
-            setImages((prevImages) => [...prevImages, parsedChunk]);
-          } catch (err) {
-            console.error("Error parsing chunk:", err);
-          }
-        }
-
-        // Retain the last partial chunk that hasn't been completed yet
-        partialChunk = lines[lines.length - 1];
-      }
-
-      console.log("Streaming complete");
-      setuploading(false);
-    } catch (error) {
-      console.error("Error fetching images:", error);
     }
   };
 
@@ -144,7 +80,7 @@ export default function View() {
 
         try {
           await axios.post(
-            `${process.env.REACT_APP_BACKEND_URL}/api/files`,
+            `${process.env.REACT_APP_BACKEND_URL}/api/files/server`,
             formData,
             {
               headers: {
@@ -157,6 +93,7 @@ export default function View() {
           await fetchImages();
         } catch (error) {
           console.error("Error uploading image:", error);
+          setuploading(false);
         }
       }
     };
@@ -194,19 +131,25 @@ export default function View() {
             images.length > 0 &&
             images.map((file, index) => (
               <div key={index} className="group">
-                {file.contentType.startsWith("image") && (
+                {file.type.startsWith("image") && (
                   <>
                     <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-                      <img
-                        src={`data:${file.contentType};base64,${file.data}`}
-                        alt={file.filename}
-                        style={{
-                          objectFit: "cover",
-                          width: "100%",
-                          height: "100%",
-                        }}
-                        className="h-full w-full object-cover object-center "
-                      />
+                      <a
+                        href={`${process.env.REACT_APP_BACKEND_URL}/${file.filepath}`}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <img
+                          src={`${process.env.REACT_APP_BACKEND_URL}/${file.filepath}`}
+                          alt={file.filename}
+                          style={{
+                            objectFit: "cover",
+                            width: "100%",
+                            height: "100%",
+                          }}
+                          className="h-full w-full object-cover object-center "
+                        />
+                      </a>
                     </div>
                     <h3 className="mt-4 text-sm text-gray-700">
                       {file.filename}
@@ -216,15 +159,22 @@ export default function View() {
                     </p> */}
                   </>
                 )}
-                {file.contentType.startsWith("video") && (
+                {file.type.startsWith("video") && (
                   <>
                     <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-                      <video
-                        src={`data:${file.contentType};base64,${file.data}`}
-                        style={{ objectFit: "cover" }}
-                        controls
-                        className="h-full w-full object-cover object-center"
-                      />
+                      <a
+                        href={`${process.env.REACT_APP_BACKEND_URL}/${file.filepath}`}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <video
+                          src={`${process.env.REACT_APP_BACKEND_URL}/${file.filepath}`}
+                          alt={file.filename}
+                          style={{ objectFit: "cover" }}
+                          controls
+                          className="h-full w-full object-cover object-center"
+                        />
+                      </a>
                     </div>
                     <h3 className="mt-4 text-sm text-gray-700">
                       {file.filename}
