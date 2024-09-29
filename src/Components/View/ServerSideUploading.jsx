@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import ReactLoading from "react-loading";
 import { ReactComponent as FileUpload } from "../../Assets/SVG/FileUpload.svg";
+import api from "../../services/httpService"
 
 export default function ViewS() {
   const [fname, setfname] = useState(localStorage.getItem("username"));
@@ -20,15 +21,8 @@ export default function ViewS() {
     try {
       seterr("");
       console.log("Fetching Files");
-      const res = await axios.get(
+      const res = await api.get(
         `${process.env.REACT_APP_BACKEND_URL}/api/files/server`,
-        {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            authorization: localStorage.getItem("token"),
-          },
-        }
       );
       console.log("Responsee:", res.data);
       const items = res?.data;
@@ -51,10 +45,6 @@ export default function ViewS() {
     }
   }, []);
 
-  const handleImageChange = (event) => {
-    setisimage(event.target.files[0]);
-    console.log(isimage);
-  };
 
   const handlesubmit = async () => {
     const formData = new FormData();
@@ -85,7 +75,7 @@ export default function ViewS() {
             {
               headers: {
                 "Content-Type": "multipart/form-data",
-                authorization: localStorage.getItem("token"),
+                authorization: `Bearer ${localStorage.getItem("token")}`,
               },
             }
           );

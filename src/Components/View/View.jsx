@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import ReactLoading from "react-loading";
 import { ReactComponent as FileUpload } from "../../Assets/SVG/FileUpload.svg";
+import api from "../../services/httpService";
 
 export default function View() {
   const [fname, setfname] = useState(localStorage.getItem("username"));
@@ -19,7 +20,7 @@ export default function View() {
     // `${process.env.REACT_APP_BACKEND_URL}/api/photos/getphotos`,
     try {
       seterr("");
-      const res = await axios.get(
+      const res = await api.get(
         `${process.env.REACT_APP_BACKEND_URL}/api/files`,
         {
           headers: {
@@ -54,7 +55,7 @@ export default function View() {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            authorization: localStorage.getItem("token"),
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
@@ -143,15 +144,9 @@ export default function View() {
         inputFile.value = null;
 
         try {
-          await axios.post(
+          await api.post(
             `${process.env.REACT_APP_BACKEND_URL}/api/files`,
-            formData,
-            {
-              headers: {
-                "Content-Type": "multipart/form-data",
-                authorization: localStorage.getItem("token"),
-              },
-            }
+            formData
           );
           console.log("Image uploaded successfully");
           await fetchImages();
