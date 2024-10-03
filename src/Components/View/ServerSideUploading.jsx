@@ -2,7 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import ReactLoading from "react-loading";
 import { ReactComponent as FileUpload } from "../../Assets/SVG/FileUpload.svg";
-import api from "../../services/httpService"
+import api from "../../services/httpService";
+import { saveAs } from "file-saver";
 
 export default function ViewS() {
   const [fname, setfname] = useState(localStorage.getItem("username"));
@@ -10,7 +11,6 @@ export default function ViewS() {
   const [email, setemail] = useState(localStorage.getItem("useremail"));
   const [isimage, setisimage] = useState(null);
   const [err, seterr] = useState("");
-  const inputFileRef = useRef(null);
 
   const [images, setImages] = useState([]);
   const [uploading, setuploading] = useState(false);
@@ -22,7 +22,7 @@ export default function ViewS() {
       seterr("");
       console.log("Fetching Files");
       const res = await api.get(
-        `${process.env.REACT_APP_BACKEND_URL}/api/files/server`,
+        `${process.env.REACT_APP_BACKEND_URL}/api/files/server`
       );
       console.log("Responsee:", res.data);
       const items = res?.data;
@@ -44,7 +44,6 @@ export default function ViewS() {
       isInitialMount.current = false; // Set to false after the first render
     }
   }, []);
-
 
   const handlesubmit = async () => {
     const formData = new FormData();
@@ -89,6 +88,15 @@ export default function ViewS() {
     };
   };
 
+  const handleDelete = async (file) => {
+    console.log(file._id);
+    const id = file._id;
+
+    await api.post("/api/files/server/delete", { id: id });
+    await fetchImages();
+    console.log("Deleted successfully.");
+  };
+
   return (
     <div className="bg-white" style={{ marginTop: "60px" }}>
       <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
@@ -124,26 +132,69 @@ export default function ViewS() {
                 {file.type.startsWith("image") && (
                   <>
                     <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-                      <a
+                      {/* <a
                         href={`${process.env.REACT_APP_BACKEND_URL}/${file.filepath}`}
                         target="_blank"
                         rel="noreferrer"
-                      >
-                        <img
-                          src={`${process.env.REACT_APP_BACKEND_URL}/${file.filepath}`}
-                          alt={file.filename}
-                          style={{
-                            objectFit: "cover",
-                            width: "100%",
-                            height: "100%",
-                          }}
-                          className="h-full w-full object-cover object-center "
-                        />
-                      </a>
+                      > */}
+                      <img
+                        src={`${process.env.REACT_APP_BACKEND_URL}/${file.filepath}`}
+                        alt={file.filename}
+                        style={{
+                          objectFit: "cover",
+                          width: "100%",
+                          height: "100%",
+                        }}
+                        className="h-full w-full object-cover object-center "
+                      />
+                      {/* </a> */}
                     </div>
-                    <h3 className="mt-4 text-sm text-gray-700">
-                      {file.filename}
-                    </h3>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-evenly",
+                        alignItems: "center",
+                        height: "50px",
+                        border: "0px solid black",
+                      }}
+                    >
+                      <h3 className="mt-4 text-sm text-gray-700">
+                        {file.filename.slice(
+                          0,
+                          file.filename.length > 10 ? 10 : file.filename.length
+                        )}
+                        {file.filename.length > 10
+                          ? `...${file.filename.slice(
+                              file.filename.indexOf("."),
+                              file.filename.length
+                            )}`
+                          : ""}
+                      </h3>
+                      <button
+                        onClick={() => handleDelete(file)}
+                        className="mt-4 text-sm text-white p-2 rounded-lg bg-black"
+                      >
+                        Delete
+                      </button>
+                      <button
+                        onClick={async () => {
+                          const response = await api.get(
+                            `${process.env.REACT_APP_BACKEND_URL}/${file.filepath}`,
+                            {
+                              responseType: "blob",
+                            }
+                          );
+                          const blobUrl = window.URL.createObjectURL(
+                            new Blob([response.data])
+                          );
+
+                          saveAs(blobUrl, file.filename);
+                        }}
+                        className="mt-4 text-sm text-white p-2 rounded-lg bg-black"
+                      >
+                        Download
+                      </button>
+                    </div>
                     {/* <p className="mt-1 text-lg font-medium text-gray-900">
                       {file.contentType}
                     </p> */}
@@ -152,23 +203,52 @@ export default function ViewS() {
                 {file.type.startsWith("video") && (
                   <>
                     <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-                      <a
-                        href={`${process.env.REACT_APP_BACKEND_URL}/${file.filepath}`}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        <video
-                          src={`${process.env.REACT_APP_BACKEND_URL}/${file.filepath}`}
-                          alt={file.filename}
-                          style={{ objectFit: "cover" }}
-                          controls
-                          className="h-full w-full object-cover object-center"
-                        />
-                      </a>
+                      <video
+                        src={`${process.env.REACT_APP_BACKEND_URL}/${file.filepath}`}
+                        alt={file.filename}
+                        style={{ objectFit: "cover" }}
+                        controls
+                        className="h-full w-full object-cover object-center"
+                      />
                     </div>
-                    <h3 className="mt-4 text-sm text-gray-700">
-                      {file.filename}
-                    </h3>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-evenly",
+                        alignItems: "center",
+                        height: "60px",
+                        border: "0px solid black",
+                      }}
+                    >
+                      <h3 className="mt-4 text-sm text-gray-700">
+                        {file.filename}
+                      </h3>
+                      <button
+                        onClick={() => handleDelete(file)}
+                        className="mt-4 text-sm text-white p-2 rounded-lg bg-black"
+                        style={{ marginRight: "4px" }}
+                      >
+                        Delete
+                      </button>
+                      <button
+                        onClick={async () => {
+                          const response = await api.get(
+                            `${process.env.REACT_APP_BACKEND_URL}/${file.filepath}`,
+                            {
+                              responseType: "blob",
+                            }
+                          );
+                          const blobUrl = window.URL.createObjectURL(
+                            new Blob([response.data])
+                          );
+
+                          saveAs(blobUrl, file.filename);
+                        }}
+                        className="mt-4 text-sm text-white p-2 rounded-lg bg-black"
+                      >
+                        Download
+                      </button>
+                    </div>
                     {/* <p className="mt-1 text-lg font-medium text-gray-900">
                       {file.contentType}
                     </p> */}
