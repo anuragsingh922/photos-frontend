@@ -3,6 +3,7 @@ import axios from "axios";
 import ReactLoading from "react-loading";
 import { ReactComponent as FileUpload } from "../../Assets/SVG/FileUpload.svg";
 import api from "../../services/httpService";
+import { saveAs } from "file-saver";
 
 export default function View() {
   const [fname, setfname] = useState(localStorage.getItem("username"));
@@ -11,6 +12,11 @@ export default function View() {
   const [isimage, setisimage] = useState(null);
   const [err, seterr] = useState("");
   const inputFileRef = useRef(null);
+
+
+  useEffect(()=>{
+    setemail(localStorage.getItem("useremail"));
+  } , [])
 
   const [images, setImages] = useState([]);
   const [uploading, setuploading] = useState(false);
@@ -89,7 +95,6 @@ export default function View() {
           try {
             // Parse each complete line and add to images
             const parsedChunk = JSON.parse(lines[i]);
-            console.log("Received File Data:", parsedChunk);
 
             // Update the state with each new file
             setImages((prevImages) => [...prevImages, parsedChunk]);
@@ -107,6 +112,18 @@ export default function View() {
     } catch (error) {
       console.error("Error fetching images:", error);
     }
+  };
+
+
+  const handleDelete = async (file) => {
+    console.log(file._id);
+    const id = file._id;
+
+    const {data} = await api.post("/api/files/delete", { id: id });
+    if(data?.success){
+      await fetchImages();
+    }
+    console.log("Deleted successfully.");
   };
 
   useEffect(() => {
@@ -146,7 +163,13 @@ export default function View() {
         try {
           await api.post(
             `${process.env.REACT_APP_BACKEND_URL}/api/files`,
-            formData
+            formData,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+                authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }
           );
           console.log("Image uploaded successfully");
           await fetchImages();
@@ -203,9 +226,52 @@ export default function View() {
                         className="h-full w-full object-cover object-center "
                       />
                     </div>
-                    <h3 className="mt-4 text-sm text-gray-700">
-                      {file.filename}
-                    </h3>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-evenly",
+                        alignItems: "center",
+                        height: "50px",
+                        border: "0px solid black",
+                      }}
+                    >
+                      <h3 className="mt-4 text-sm text-gray-700">
+                        {file.filename.slice(
+                          0,
+                          file.filename.length > 10 ? 10 : file.filename.length
+                        )}
+                        {file.filename.length > 10
+                          ? `...${file.filename.slice(
+                              file.filename.indexOf("."),
+                              file.filename.length
+                            )}`
+                          : ""}
+                      </h3>
+                      <button
+                        onClick={() => handleDelete(file)}
+                        className="mt-4 text-sm text-white p-2 rounded-lg bg-black"
+                      >
+                        Delete
+                      </button>
+                      <button
+                        onClick={async () => {
+                          const response = await axios.get(
+                            `data:${file.contentType};base64,${file.data}`,
+                            {
+                              responseType: "blob",
+                            }
+                          );
+                          const blobUrl = window.URL.createObjectURL(
+                            new Blob([response.data])
+                          );
+
+                          saveAs(blobUrl, file.filename);
+                        }}
+                        className="mt-4 text-sm text-white p-2 rounded-lg bg-black"
+                      >
+                        Download
+                      </button>
+                    </div>
                     {/* <p className="mt-1 text-lg font-medium text-gray-900">
                       {file.contentType}
                     </p> */}
@@ -221,9 +287,53 @@ export default function View() {
                         className="h-full w-full object-cover object-center"
                       />
                     </div>
-                    <h3 className="mt-4 text-sm text-gray-700">
-                      {file.filename}
-                    </h3>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-evenly",
+                        alignItems: "center",
+                        height: "60px",
+                        border: "0px solid black",
+                      }}
+                    >
+                      <h3 className="mt-4 text-sm text-gray-700">
+                      {file.filename.slice(
+                          0,
+                          file.filename.length > 10 ? 10 : file.filename.length
+                        )}
+                        {file.filename.length > 10
+                          ? `...${file.filename.slice(
+                              file.filename.indexOf("."),
+                              file.filename.length
+                            )}`
+                          : ""}
+                      </h3>
+                      <button
+                        onClick={() => handleDelete(file)}
+                        className="mt-4 text-sm text-white p-2 rounded-lg bg-black"
+                        style={{ marginRight: "4px" }}
+                      >
+                        Delete
+                      </button>
+                      <button
+                        onClick={async () => {
+                          const response = await axios.get(
+                            `data:${file.contentType};base64,${file.data}`,
+                            {
+                              responseType: "blob",
+                            }
+                          );
+                          const blobUrl = window.URL.createObjectURL(
+                            new Blob([response.data])
+                          );
+
+                          saveAs(blobUrl, file.filename);
+                        }}
+                        className="mt-4 text-sm text-white p-2 rounded-lg bg-black"
+                      >
+                        Download
+                      </button>
+                    </div>
                     {/* <p className="mt-1 text-lg font-medium text-gray-900">
                       {file.contentType}
                     </p> */}

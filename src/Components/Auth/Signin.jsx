@@ -30,7 +30,7 @@ export default function Signin(props) {
         localStorage.setItem('username' , json.user.fname);
         localStorage.setItem('userlastname' , json.user.lname);
         localStorage.setItem('useremail' , json.user.email);
-        navigate("/server");
+        navigate("/stream");
         props.showalert("Login Successfully" , 'success');
         // e.sendStatus(200);
     }
