@@ -165,7 +165,7 @@ export default function ViewS() {
                         )}
                         {file.filename.length > 10
                           ? `...${file.filename.slice(
-                              file.filename.indexOf("."),
+                              file.filename.lastIndexOf("."),
                               file.filename.length
                             )}`
                           : ""}
@@ -221,7 +221,16 @@ export default function ViewS() {
                       }}
                     >
                       <h3 className="mt-4 text-sm text-gray-700">
-                        {file.filename}
+                      {file.filename.slice(
+                          0,
+                          file.filename.length > 10 ? 10 : file.filename.length
+                        )}
+                        {file.filename.length > 10
+                          ? `...${file.filename.slice(
+                              file.filename.lastIndexOf("."),
+                              file.filename.length
+                            )}`
+                          : ""}
                       </h3>
                       <button
                         onClick={() => handleDelete(file)}

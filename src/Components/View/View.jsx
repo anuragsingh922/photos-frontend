@@ -242,7 +242,7 @@ export default function View() {
                         )}
                         {file.filename.length > 10
                           ? `...${file.filename.slice(
-                              file.filename.indexOf("."),
+                              file.filename.lastIndexOf("."),
                               file.filename.length
                             )}`
                           : ""}
@@ -303,7 +303,7 @@ export default function View() {
                         )}
                         {file.filename.length > 10
                           ? `...${file.filename.slice(
-                              file.filename.indexOf("."),
+                              file.filename.lastIndexOf("."),
                               file.filename.length
                             )}`
                           : ""}
