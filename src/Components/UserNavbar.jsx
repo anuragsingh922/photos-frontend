@@ -3,8 +3,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import styles from "./Navbar.module.css"; // Import CSS Module
 
 function Navbar(props) {
-  const user_name = localStorage.getItem("username");
-  const userlastname = localStorage.getItem("userlastname");
+  const name = localStorage.getItem("name");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -39,7 +38,7 @@ function Navbar(props) {
 
         <div className={styles.navsecond}>
           <ul className={styles.navsecondul}>
-            <div className={styles.username}>{user_name + " " + userlastname}</div>
+            <div className={styles.username}>{name}</div>
             <button className={`${styles.btn} ${styles.buttonlogin}`} onClick={logout}>
               Logout
             </button>

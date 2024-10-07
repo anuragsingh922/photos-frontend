@@ -7,7 +7,7 @@ export default function Home() {
 
   useEffect(()=>{
     if(localStorage.getItem("token")){
-      navigate("/server");
+      navigate("/stream");
     }
   })
   return (
@@ -37,37 +37,14 @@ export default function Home() {
                       <div className="h-64 w-44 overflow-hidden rounded-lg sm:opacity-0 lg:opacity-100">
                         <img
                           alt=""
-                          src="https://tailwindui.com/img/ecommerce-images/home-page-03-hero-image-tile-01.jpg"
+                          src="https://images.unsplash.com/photo-1477282118108-2e2f8f6fbec3?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cGVvcGxlc3xlbnwwfHwwfHx8MA%3D%3D"
                           className="h-full w-full object-cover object-center"
                         />
                       </div>
                       <div className="h-64 w-44 overflow-hidden rounded-lg">
                         <img
                           alt=""
-                          src="https://tailwindui.com/img/ecommerce-images/home-page-03-hero-image-tile-02.jpg"
-                          className="h-full w-full object-cover object-center"
-                        />
-                      </div>
-                    </div>
-                    <div className="grid flex-shrink-0 grid-cols-1 gap-y-6 lg:gap-y-8">
-                      <div className="h-64 w-44 overflow-hidden rounded-lg">
-                        <img
-                          alt=""
-                          src="https://tailwindui.com/img/ecommerce-images/home-page-03-hero-image-tile-03.jpg"
-                          className="h-full w-full object-cover object-center"
-                        />
-                      </div>
-                      <div className="h-64 w-44 overflow-hidden rounded-lg">
-                        <img
-                          alt=""
-                          src="https://tailwindui.com/img/ecommerce-images/home-page-03-hero-image-tile-04.jpg"
-                          className="h-full w-full object-cover object-center"
-                        />
-                      </div>
-                      <div className="h-64 w-44 overflow-hidden rounded-lg">
-                        <img
-                          alt=""
-                          src="https://tailwindui.com/img/ecommerce-images/home-page-03-hero-image-tile-05.jpg"
+                          src="https://images.unsplash.com/photo-1483450388369-9ed95738483c?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cGVvcGxlc3xlbnwwfHwwfHx8Mg%3D%3D"
                           className="h-full w-full object-cover object-center"
                         />
                       </div>
@@ -76,14 +53,37 @@ export default function Home() {
                       <div className="h-64 w-44 overflow-hidden rounded-lg">
                         <img
                           alt=""
-                          src="https://tailwindui.com/img/ecommerce-images/home-page-03-hero-image-tile-06.jpg"
+                          src="https://images.unsplash.com/photo-1533117259300-57a7476bc78d?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8cGVvcGxlc3xlbnwwfHwwfHx8Mg%3D%3D"
                           className="h-full w-full object-cover object-center"
                         />
                       </div>
                       <div className="h-64 w-44 overflow-hidden rounded-lg">
                         <img
                           alt=""
-                          src="https://tailwindui.com/img/ecommerce-images/home-page-03-hero-image-tile-07.jpg"
+                          src="https://images.unsplash.com/photo-1512348685137-98ad6f766061?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8cGVvcGxlc3xlbnwwfHwwfHx8Mg%3D%3D"
+                          className="h-full w-full object-cover object-center"
+                        />
+                      </div>
+                      <div className="h-64 w-44 overflow-hidden rounded-lg">
+                        <img
+                          alt=""
+                          src="https://images.unsplash.com/photo-1532193112533-44e22b536a4a?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8cGVvcGxlc3xlbnwwfHwwfHx8Mg%3D%3D"
+                          className="h-full w-full object-cover object-center"
+                        />
+                      </div>
+                    </div>
+                    <div className="grid flex-shrink-0 grid-cols-1 gap-y-6 lg:gap-y-8">
+                      <div className="h-64 w-44 overflow-hidden rounded-lg">
+                        <img
+                          alt=""
+                          src="https://images.unsplash.com/photo-1569918141540-7775b3d11c88?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fHBlb3BsZXN8ZW58MHx8MHx8fDI%3D"
+                          className="h-full w-full object-cover object-center"
+                        />
+                      </div>
+                      <div className="h-64 w-44 overflow-hidden rounded-lg">
+                        <img
+                          alt=""
+                          src="https://images.unsplash.com/photo-1568367809408-06a12a91d076?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHBlb3BsZXN8ZW58MHx8MHx8fDI%3D"
                           className="h-full w-full object-cover object-center"
                         />
                       </div>

@@ -12,6 +12,9 @@ export default function Signin(props) {
     e.preventDefault();
 
     console.log(logindata);
+
+    document.getElementById("signin").innerText = "Signing in..";
+
     const responce = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/auth/login`,{
         method: 'POST',
         headers : {
@@ -27,8 +30,7 @@ export default function Signin(props) {
 
     if(json.success){
         localStorage.setItem('token' , json.authtoken);
-        localStorage.setItem('username' , json.user.fname);
-        localStorage.setItem('userlastname' , json.user.lname);
+        localStorage.setItem('name' , json.user.name);
         localStorage.setItem('useremail' , json.user.email);
         navigate("/stream");
         props.showalert("Login Successfully" , 'success');
@@ -36,9 +38,11 @@ export default function Signin(props) {
     }
     else{
       props.showalert("Invalid Usename or passsword" , 'danger');
+      document.getElementById("signin").innerText = "Sign in";
     }
   }catch(err){
     console.log("Error during login ", err);
+    document.getElementById("signin").innerText = "Sign in";
   }
 
   }
@@ -51,11 +55,6 @@ export default function Signin(props) {
       <>
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-            <img
-              alt="Your Company"
-              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-              className="mx-auto h-10 w-auto"
-            />
             <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
               Sign in to your account
             </h2>
@@ -102,12 +101,28 @@ export default function Signin(props) {
               <div>
                 <button
                   type="submit"
+                  id="signin"
                   className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
                   Sign in
                 </button>
               </div>
             </form>
+
+            <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              marginTop: "20px",
+              cursor: "pointer",
+            }}
+            onClick={() => {
+              navigate("/signup");
+            }}
+          >
+            <u> Create account.</u>
+          </div>
           </div>
         </div>
       </>

@@ -6,12 +6,10 @@ import api from "../../services/httpService";
 import { saveAs } from "file-saver";
 
 export default function View() {
-  const [fname, setfname] = useState(localStorage.getItem("username"));
-  const [lname, setlname] = useState(localStorage.getItem("userlastname"));
   const [email, setemail] = useState(localStorage.getItem("useremail"));
-  const [isimage, setisimage] = useState(null);
-  const [err, seterr] = useState("");
-  const inputFileRef = useRef(null);
+  const [isimage, setisimage] = useState([]);
+  const [err, seterr] = useState(null);
+  const [loading , setloading] = useState(true);
 
 
   useEffect(()=>{
@@ -22,38 +20,10 @@ export default function View() {
   const [uploading, setuploading] = useState(false);
   const isInitialMount = useRef(true);
 
-  const fetchImages2 = async () => {
-    // `${process.env.REACT_APP_BACKEND_URL}/api/photos/getphotos`,
-    try {
-      seterr("");
-      const res = await api.get(
-        `${process.env.REACT_APP_BACKEND_URL}/api/files`,
-        {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
-            authorization: localStorage.getItem("token"),
-          },
-        }
-      );
-      console.log("Responsee:", res.data);
-      console.log("Response:", res.data);
-      if (res.data && res.data.files) {
-        setImages(res.data.files); // Set the files received from the backend
-        setuploading(false);
-      } else {
-        seterr("Not Image Found.");
-      }
-    } catch (error) {
-      console.error("Error fetching images:", error);
-      seterr(error);
-    }
-  };
-
   const fetchImages = async () => {
     // `${process.env.REACT_APP_BACKEND_URL}/api/photos/getphotos`,
     try {
+      setloading(true);
       setImages([]);
       const response = await fetch(
         `${process.env.REACT_APP_BACKEND_URL}/api/files`,
@@ -69,13 +39,6 @@ export default function View() {
       if (!response.ok) {
         throw new Error(`Error fetching images: ${response.statusText}`);
       }
-
-      // Use the readable stream from the response to process the data
-      // console.log("Responsee:", res.data);
-      // console.log("Response:", res.data);
-      // if (res.data && res.data.files) {
-      //   setImages(res.data.files); // Set the files received from the backend
-      // }
       const reader = response.body.getReader();
       const decoder = new TextDecoder("utf-8");
       let partialChunk = "";
@@ -106,7 +69,7 @@ export default function View() {
         // Retain the last partial chunk that hasn't been completed yet
         partialChunk = lines[lines.length - 1];
       }
-
+      setloading(false);
       console.log("Streaming complete");
       setuploading(false);
     } catch (error) {
@@ -132,11 +95,6 @@ export default function View() {
       isInitialMount.current = false; // Set to false after the first render
     }
   }, []);
-
-  const handleImageChange = (event) => {
-    setisimage(event.target.files[0]);
-    console.log(isimage);
-  };
 
   const handlesubmit = async () => {
     const formData = new FormData();
@@ -187,7 +145,7 @@ export default function View() {
           Images & Videos
         </h2>
 
-        {(!images || images.length === 0) && !err && (
+        {(!images || images.length === 0) && loading && !err && (
           <div
             style={{
               display: "flex",
@@ -205,9 +163,9 @@ export default function View() {
           </div>
         )}
 
-        {err && <div>No Content Found.</div>}
+        {!loading && images.length <=0 && <div style={{ height:"20%" , fontSize:"30px" , fontWeight:"700", display:"flex" , justifyContent:"center" , alignItems:"center"}}>No image and Video found.</div>}
 
-        <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+        <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8" style={{paddingBottom:"100px"}}>
           {images &&
             images.length > 0 &&
             images.map((file, index) => (
@@ -357,6 +315,8 @@ export default function View() {
           border: "3px solid black",
           borderRadius: "50%",
           cursor: "pointer",
+          backgroundColor:"transparent",
+          backfaceVisibility:"none"
         }}
         onClick={handlesubmit}
       >
@@ -368,7 +328,7 @@ export default function View() {
             width={"50%"}
           />
         ) : (
-          <FileUpload style={{ width: "40px", height: "40px", color: "red" }} />
+          <FileUpload style={{ width: "40px", height: "40px",  color: "red" }} />
         )}
       </div>
     </div>
