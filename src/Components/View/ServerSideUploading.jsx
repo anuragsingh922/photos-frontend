@@ -227,7 +227,7 @@ export default function ViewS() {
                         )}
                         {file.filename.length > 10
                           ? `...${file.filename.slice(
-                              file.filename.lastIndexOf("."),
+                              file.filename.lastIndexOf(".")-1,
                               file.filename.length
                             )}`
                           : ""}
