@@ -101,6 +101,7 @@ export default function View() {
   }, []);
 
   const handlesubmit = async () => {
+    try{
     const formData = new FormData();
 
     // Create a file input element programmatically
@@ -137,9 +138,14 @@ export default function View() {
           await fetchImages();
         } catch (error) {
           console.error("Error uploading image:", error);
+          setuploading(false);
         }
       }
     };
+  }catch(err){
+    console.log("Error in uploading image/video." , err);
+    setuploading(false);
+  }
   };
 
   return (
