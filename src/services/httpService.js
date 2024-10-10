@@ -4,7 +4,7 @@ import axios from 'axios';
 // Create an Axios instance with default settings
 const api = axios.create({
   baseURL: process.env.REACT_APP_BACKEND_URL,
-  timeout: 10000, // 10 seconds timeout
+  timeout: 60000, // 60 seconds timeout
   headers: {
     'Content-Type': 'application/json',
   },

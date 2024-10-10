@@ -9,12 +9,11 @@ export default function View() {
   const [email, setemail] = useState(localStorage.getItem("useremail"));
   const [isimage, setisimage] = useState([]);
   const [err, seterr] = useState(null);
-  const [loading , setloading] = useState(true);
+  const [loading, setloading] = useState(true);
 
-
-  useEffect(()=>{
+  useEffect(() => {
     setemail(localStorage.getItem("useremail"));
-  } , [])
+  }, []);
 
   const [images, setImages] = useState([]);
   const [uploading, setuploading] = useState(false);
@@ -77,16 +76,21 @@ export default function View() {
     }
   };
 
-
   const handleDelete = async (file) => {
-    console.log(file._id);
-    const id = file._id;
+    try {
+      console.log(file._id);
+      const id = file._id;
+      setloading(true);
 
-    const {data} = await api.post("/api/files/delete", { id: id });
-    if(data?.success){
-      await fetchImages();
+      const { data } = await api.post("/api/files/delete", { id: id });
+      if (data?.success) {
+        await fetchImages();
+      }
+      console.log("Deleted successfully.");
+    } catch (err) {
+      console.error("Error in delete file", err);
+      setloading(false);
     }
-    console.log("Deleted successfully.");
   };
 
   useEffect(() => {
@@ -163,9 +167,25 @@ export default function View() {
           </div>
         )}
 
-        {!loading && images.length <=0 && <div style={{ height:"20%" , fontSize:"30px" , fontWeight:"700", display:"flex" , justifyContent:"center" , alignItems:"center"}}>No image and Video found.</div>}
+        {!loading && images.length <= 0 && (
+          <div
+            style={{
+              height: "20%",
+              fontSize: "30px",
+              fontWeight: "700",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            No image and Video found.
+          </div>
+        )}
 
-        <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8" style={{paddingBottom:"100px"}}>
+        <div
+          className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8"
+          style={{ paddingBottom: "100px" }}
+        >
           {images &&
             images.length > 0 &&
             images.map((file, index) => (
@@ -200,7 +220,7 @@ export default function View() {
                         )}
                         {file.filename.length > 10
                           ? `...${file.filename.slice(
-                              file.filename.lastIndexOf(".")-1,
+                              file.filename.lastIndexOf(".") - 1,
                               file.filename.length
                             )}`
                           : ""}
@@ -255,13 +275,13 @@ export default function View() {
                       }}
                     >
                       <h3 className="mt-4 text-sm text-gray-700">
-                      {file.filename.slice(
+                        {file.filename.slice(
                           0,
                           file.filename.length > 10 ? 10 : file.filename.length
                         )}
                         {file.filename.length > 10
                           ? `...${file.filename.slice(
-                              file.filename.lastIndexOf(".")-1,
+                              file.filename.lastIndexOf(".") - 1,
                               file.filename.length
                             )}`
                           : ""}
@@ -315,8 +335,8 @@ export default function View() {
           border: "3px solid black",
           borderRadius: "50%",
           cursor: "pointer",
-          backgroundColor:"transparent",
-          backfaceVisibility:"none"
+          backgroundColor: "transparent",
+          backfaceVisibility: "none",
         }}
         onClick={handlesubmit}
       >
@@ -328,7 +348,7 @@ export default function View() {
             width={"50%"}
           />
         ) : (
-          <FileUpload style={{ width: "40px", height: "40px",  color: "red" }} />
+          <FileUpload style={{ width: "40px", height: "40px", color: "red" }} />
         )}
       </div>
     </div>
