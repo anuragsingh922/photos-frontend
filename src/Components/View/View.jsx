@@ -23,7 +23,6 @@ export default function View() {
     // `${process.env.REACT_APP_BACKEND_URL}/api/photos/getphotos`,
     try {
       setloading(true);
-      setImages([]);
       const response = await fetch(
         `${process.env.REACT_APP_BACKEND_URL}/api/files`,
         {
@@ -41,6 +40,8 @@ export default function View() {
       const reader = response.body.getReader();
       const decoder = new TextDecoder("utf-8");
       let partialChunk = "";
+
+      setImages([]);
 
       while (true) {
         const { value, done } = await reader.read();
@@ -95,57 +96,57 @@ export default function View() {
 
   useEffect(() => {
     if (isInitialMount.current) {
-      fetchImages(); // Call the fetchImages function only once
-      isInitialMount.current = false; // Set to false after the first render
+      fetchImages();
+      isInitialMount.current = false;
     }
   }, []);
 
   const handlesubmit = async () => {
-    try{
-    const formData = new FormData();
+    try {
+      const formData = new FormData();
 
-    // Create a file input element programmatically
-    const inputFile = document.createElement("input");
-    inputFile.type = "file";
+      // Create a file input element programmatically
+      const inputFile = document.createElement("input");
+      inputFile.type = "file";
 
-    // Trigger the file selection dialog
-    inputFile.click();
+      // Trigger the file selection dialog
+      inputFile.click();
 
-    // Wait for the user to select a file
-    inputFile.onchange = async (event) => {
-      const file = event.target.files[0]; // Get the selected file
-      setuploading(true);
+      // Wait for the user to select a file
+      inputFile.onchange = async (event) => {
+        const file = event.target.files[0]; // Get the selected file
+        setuploading(true);
 
-      if (file) {
-        formData.append("file", file); // Append the file to formData
-        formData.append("email", email); // Append the email to formData
+        if (file) {
+          formData.append("file", file); // Append the file to formData
+          formData.append("email", email); // Append the email to formData
 
-        // Reset input value if needed (not necessary here as it's a programmatic input)
-        inputFile.value = null;
+          // Reset input value if needed (not necessary here as it's a programmatic input)
+          inputFile.value = null;
 
-        try {
-          await api.post(
-            `${process.env.REACT_APP_BACKEND_URL}/api/files`,
-            formData,
-            {
-              headers: {
-                "Content-Type": "multipart/form-data",
-                authorization: `Bearer ${localStorage.getItem("token")}`,
-              },
-            }
-          );
-          console.log("Image uploaded successfully");
-          await fetchImages();
-        } catch (error) {
-          console.error("Error uploading image:", error);
-          setuploading(false);
+          try {
+            await api.post(
+              `${process.env.REACT_APP_BACKEND_URL}/api/files`,
+              formData,
+              {
+                headers: {
+                  "Content-Type": "multipart/form-data",
+                  authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+              }
+            );
+            console.log("Image uploaded successfully");
+            await fetchImages();
+          } catch (error) {
+            console.error("Error uploading image:", error);
+            setuploading(false);
+          }
         }
-      }
-    };
-  }catch(err){
-    console.log("Error in uploading image/video." , err);
-    setuploading(false);
-  }
+      };
+    } catch (err) {
+      console.log("Error in uploading image/video.", err);
+      setuploading(false);
+    }
   };
 
   return (
