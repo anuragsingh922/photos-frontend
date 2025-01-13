@@ -9,7 +9,7 @@
     position: fixed;
     top: 0;
     backdrop-filter: blur(10px);
-    z-index: 100;
+    z-index: 50;
     flex-wrap: auto;
     background-color: rgb(232, 232, 232);
 }

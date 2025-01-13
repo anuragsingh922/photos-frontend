@@ -26,8 +26,7 @@ function Main() {
           },
         }
       );
-      console.log("Responsee:", res.data);
-      console.log("Response:", res.data);
+
       if (res.data && res.data.files) {
         setImages(res.data.files); // Set the files received from the backend
       }
@@ -56,8 +55,6 @@ function Main() {
 
       // Use the readable stream from the response to process the data
       const reader = response.body.getReader();
-      // console.log("Responsee:", res.data);
-      // console.log("Response:", res.data);
       // if (res.data && res.data.files) {
       //   setImages(res.data.files); // Set the files received from the backend
       // }
@@ -75,10 +72,8 @@ function Main() {
 
         // Decode chunk and parse the JSON
         const chunk = decoder.decode(value);
-        console.log("Chunk : ", chunk);
         if (chunk) {
           const parsedChunk = JSON.parse(chunk);
-          console.log(parsedChunk);
 
           // Assuming each chunk is an individual file object
           if (parsedChunk) {
@@ -97,7 +92,6 @@ function Main() {
 
   const handleImageChange = (event) => {
     setisimage(event.target.files[0]);
-    console.log(isimage);
   };
 
   const handlesubmit = async () => {
@@ -120,7 +114,6 @@ function Main() {
           },
         }
       );
-      console.log("Image uploaded successfully");
       await fetchImages();
     } catch (error) {
       console.error("Error uploading image:", error);

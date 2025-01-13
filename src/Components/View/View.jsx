@@ -4,12 +4,15 @@ import ReactLoading from "react-loading";
 import { ReactComponent as FileUpload } from "../../Assets/SVG/FileUpload.svg";
 import api from "../../services/httpService";
 import { saveAs } from "file-saver";
+import css from "./Views.module.css";
 
-export default function View() {
+export default function View(props) {
   const [email, setemail] = useState(localStorage.getItem("useremail"));
   const [isimage, setisimage] = useState([]);
   const [err, seterr] = useState(null);
   const [loading, setloading] = useState(true);
+  const [deleteId, setdeleteId] = useState(0);
+  const [shareId, setshareId] = useState(0);
 
   useEffect(() => {
     setemail(localStorage.getItem("useremail"));
@@ -19,8 +22,7 @@ export default function View() {
   const [uploading, setuploading] = useState(false);
   const isInitialMount = useRef(true);
 
-  const fetchImages = async () => {
-    // `${process.env.REACT_APP_BACKEND_URL}/api/photos/getphotos`,
+  const fetchImages = async (uploaded) => {
     try {
       setloading(true);
       const response = await fetch(
@@ -41,62 +43,71 @@ export default function View() {
       const decoder = new TextDecoder("utf-8");
       let partialChunk = "";
 
-      setImages([]);
+      if (!uploaded) {
+        setImages([]);
+      }
 
       while (true) {
         const { value, done } = await reader.read();
         if (done) break;
 
-        // Decode the chunk and accumulate it
         const chunk = decoder.decode(value, { stream: true });
         partialChunk += chunk;
 
-        // Split chunks by newlines to handle NDJSON format or custom delimiters
         const lines = partialChunk.split("\n");
 
         for (let i = 0; i < lines.length - 1; i++) {
           try {
-            // Parse each complete line and add to images
             const parsedChunk = JSON.parse(lines[i]);
 
-            // Update the state with each new file
-            setImages((prevImages) => [...prevImages, parsedChunk]);
+            if (uploaded) {
+              if (!images.some((item) => item._id === parsedChunk._id)) {
+                setImages((prevImages) => [parsedChunk, ...prevImages]);
+                props.showalert("Image uploaded successfully", "success");
+              }
+              setuploading(false);
+              return;
+            } else {
+              setImages((prevImages) => [...prevImages, parsedChunk]);
+            }
           } catch (err) {
             console.error("Error parsing chunk:", err);
           }
         }
 
-        // Retain the last partial chunk that hasn't been completed yet
         partialChunk = lines[lines.length - 1];
       }
       setloading(false);
-      console.log("Streaming complete");
-      setuploading(false);
     } catch (error) {
       console.error("Error fetching images:", error);
+      setuploading(false);
     }
   };
 
   const handleDelete = async (file) => {
     try {
-      console.log(file._id);
       const id = file._id;
       setloading(true);
+      setdeleteId(file._id);
 
       const { data } = await api.post("/api/files/delete", { id: id });
       if (data?.success) {
-        await fetchImages();
+        // await fetchImages();
+        const image = images.filter((item) => item._id !== file._id);
+        setImages(image);
+        setdeleteId(0);
       }
-      console.log("Deleted successfully.");
+      props.showalert("Deleted successfully", "success");
     } catch (err) {
       console.error("Error in delete file", err);
       setloading(false);
+      setdeleteId(0);
     }
   };
 
   useEffect(() => {
     if (isInitialMount.current) {
-      fetchImages();
+      fetchImages(false);
       isInitialMount.current = false;
     }
   }, []);
@@ -105,23 +116,19 @@ export default function View() {
     try {
       const formData = new FormData();
 
-      // Create a file input element programmatically
       const inputFile = document.createElement("input");
       inputFile.type = "file";
 
-      // Trigger the file selection dialog
       inputFile.click();
 
-      // Wait for the user to select a file
       inputFile.onchange = async (event) => {
-        const file = event.target.files[0]; // Get the selected file
+        const file = event.target.files[0];
         setuploading(true);
 
         if (file) {
-          formData.append("file", file); // Append the file to formData
-          formData.append("email", email); // Append the email to formData
+          formData.append("file", file);
+          formData.append("email", email);
 
-          // Reset input value if needed (not necessary here as it's a programmatic input)
           inputFile.value = null;
 
           try {
@@ -135,8 +142,7 @@ export default function View() {
                 },
               }
             );
-            console.log("Image uploaded successfully");
-            await fetchImages();
+            await fetchImages(true);
           } catch (error) {
             console.error("Error uploading image:", error);
             setuploading(false);
@@ -144,8 +150,23 @@ export default function View() {
         }
       };
     } catch (err) {
-      console.log("Error in uploading image/video.", err);
+      console.error("Error in uploading image/video.", err);
       setuploading(false);
+    }
+  };
+
+  const handleShare = (file) => {
+    try {
+      setshareId(file?._id);
+      navigator.clipboard.writeText(
+        `data:${file.contentType};base64,${file.data}`
+      );
+      props.showalert("Share link copied to clipboard", "success");
+      setshareId(0);
+    } catch (err) {
+      setshareId(0);
+      props.showalert("Failed to copy", "danger");
+      console.error("Error in sharing : ", err);
     }
   };
 
@@ -157,20 +178,31 @@ export default function View() {
         </h2>
 
         {(!images || images.length === 0) && loading && !err && (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              width: "100%",
-            }}
-          >
-            <ReactLoading
-              type="spin"
-              color="black"
-              height={"20%"}
-              width={"10%"}
-            />
+          // <div
+          //   style={{
+          //     display: "flex",
+          //     justifyContent: "center",
+          //     alignItems: "center",
+          //     width: "100%",
+          //   }}
+          // >
+          //   <ReactLoading
+          //     type="spin"
+          //     color="black"
+          //     height={"20%"}
+          //     width={"10%"}
+          //   />
+          // </div>
+
+          <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+            <div className={css.skeleton}></div>
+            <div className={css.skeleton}></div>
+            <div className={css.skeleton}></div>
+            <div className={css.skeleton}></div>
+            <div className={css.skeleton}></div>
+            <div className={css.skeleton}></div>
+            <div className={css.skeleton}></div>
+            <div className={css.skeleton}></div>
           </div>
         )}
 
@@ -197,7 +229,7 @@ export default function View() {
             images.length > 0 &&
             images.map((file, index) => (
               <div key={index} className="group">
-                {file.contentType.startsWith("image") && (
+                {file.contentType.startsWith("image") ? (
                   <>
                     <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
                       <img
@@ -211,119 +243,73 @@ export default function View() {
                         className="h-full w-full object-cover object-center "
                       />
                     </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-evenly",
-                        alignItems: "center",
-                        height: "50px",
-                        border: "0px solid black",
-                      }}
-                    >
-                      <h3 className="mt-4 text-sm text-gray-700">
-                        {file.filename.slice(
-                          0,
-                          file.filename.length > 10 ? 10 : file.filename.length
-                        )}
-                        {file.filename.length > 10
-                          ? `...${file.filename.slice(
-                              file.filename.lastIndexOf(".") - 1,
-                              file.filename.length
-                            )}`
-                          : ""}
-                      </h3>
-                      <button
-                        onClick={() => handleDelete(file)}
-                        className="mt-4 text-sm text-white p-2 rounded-lg bg-black"
-                      >
-                        Delete
-                      </button>
-                      <button
-                        onClick={async () => {
-                          const response = await axios.get(
-                            `data:${file.contentType};base64,${file.data}`,
-                            {
-                              responseType: "blob",
-                            }
-                          );
-                          const blobUrl = window.URL.createObjectURL(
-                            new Blob([response.data])
-                          );
-
-                          saveAs(blobUrl, file.filename);
-                        }}
-                        className="mt-4 text-sm text-white p-2 rounded-lg bg-black"
-                      >
-                        Download
-                      </button>
-                    </div>
-                    {/* <p className="mt-1 text-lg font-medium text-gray-900">
-                      {file.contentType}
-                    </p> */}
                   </>
+                ) : (
+                  <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
+                    <video
+                      src={`data:${file.contentType};base64,${file.data}`}
+                      style={{ objectFit: "cover" }}
+                      controls
+                      className="h-full w-full object-cover object-center"
+                    />
+                  </div>
                 )}
-                {file.contentType.startsWith("video") && (
-                  <>
-                    <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-                      <video
-                        src={`data:${file.contentType};base64,${file.data}`}
-                        style={{ objectFit: "cover" }}
-                        controls
-                        className="h-full w-full object-cover object-center"
-                      />
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-evenly",
-                        alignItems: "center",
-                        height: "60px",
-                        border: "0px solid black",
-                      }}
-                    >
-                      <h3 className="mt-4 text-sm text-gray-700">
-                        {file.filename.slice(
-                          0,
-                          file.filename.length > 10 ? 10 : file.filename.length
-                        )}
-                        {file.filename.length > 10
-                          ? `...${file.filename.slice(
-                              file.filename.lastIndexOf(".") - 1,
-                              file.filename.length
-                            )}`
-                          : ""}
-                      </h3>
-                      <button
-                        onClick={() => handleDelete(file)}
-                        className="mt-4 text-sm text-white p-2 rounded-lg bg-black"
-                        style={{ marginRight: "4px" }}
-                      >
-                        Delete
-                      </button>
-                      <button
-                        onClick={async () => {
-                          const response = await axios.get(
-                            `data:${file.contentType};base64,${file.data}`,
-                            {
-                              responseType: "blob",
-                            }
-                          );
-                          const blobUrl = window.URL.createObjectURL(
-                            new Blob([response.data])
-                          );
 
-                          saveAs(blobUrl, file.filename);
-                        }}
-                        className="mt-4 text-sm text-white p-2 rounded-lg bg-black"
-                      >
-                        Download
-                      </button>
-                    </div>
-                    {/* <p className="mt-1 text-lg font-medium text-gray-900">
-                      {file.contentType}
-                    </p> */}
-                  </>
-                )}
+                <div>
+                  <h3 className="mt-4 text-sm px-2 text-gray-700">
+                    {file.filename.slice(
+                      0,
+                      file.filename.length > 15 ? 15 : file.filename.length
+                    )}
+                    {file.filename.length > 15
+                      ? `...${file.filename.slice(
+                          file.filename.lastIndexOf(".") - 1,
+                          file.filename.length
+                        )}`
+                      : ""}
+                  </h3>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-evenly",
+                    alignItems: "center",
+                    height: "50px",
+                    border: "0px solid black",
+                  }}
+                >
+                  <button
+                    onClick={async () => {
+                      const response = await axios.get(
+                        `data:${file.contentType};base64,${file.data}`,
+                        {
+                          responseType: "blob",
+                        }
+                      );
+                      const blobUrl = window.URL.createObjectURL(
+                        new Blob([response.data])
+                      );
+
+                      saveAs(blobUrl, file.filename);
+                    }}
+                    className="mt-4 text-sm text-white p-2 rounded-lg bg-black"
+                  >
+                    Download
+                  </button>
+                  <button
+                    onClick={() => handleDelete(file)}
+                    className="mt-4 text-sm text-white p-2 rounded-lg bg-black"
+                  >
+                    {deleteId !== file._id ? "Delete" : "Deleting..."}
+                  </button>
+
+                  <button
+                    onClick={() => handleShare(file)}
+                    className="mt-4 text-sm text-white p-2 rounded-lg bg-black"
+                  >
+                    {shareId !== file._id ? "Share" : "Sharing..."}
+                  </button>
+                </div>
               </div>
             ))}
         </div>
@@ -339,11 +325,12 @@ export default function View() {
           height: "60px",
           bottom: "50px",
           right: "50px",
-          border: "3px solid black",
-          borderRadius: "50%",
+          border: "2px solid black",
+          borderRadius: "15px",
           cursor: "pointer",
           backgroundColor: "transparent",
           backfaceVisibility: "none",
+          padding: "5px",
         }}
         onClick={handlesubmit}
       >
@@ -355,7 +342,11 @@ export default function View() {
             width={"50%"}
           />
         ) : (
-          <FileUpload style={{ width: "40px", height: "40px", color: "red" }} />
+          <>
+            <FileUpload
+              style={{ width: "40px", height: "40px", color: "red" }}
+            />
+          </>
         )}
       </div>
     </div>

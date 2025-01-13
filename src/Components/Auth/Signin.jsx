@@ -11,8 +11,6 @@ export default function Signin(props) {
     try{
     e.preventDefault();
 
-    console.log(logindata);
-
     document.getElementById("signin").innerText = "Signing in..";
 
     const responce = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/auth/login`,{
@@ -41,7 +39,7 @@ export default function Signin(props) {
       document.getElementById("signin").innerText = "Sign in";
     }
   }catch(err){
-    console.log("Error during login ", err);
+    console.error("Error during login ", err);
     document.getElementById("signin").innerText = "Sign in";
   }
 

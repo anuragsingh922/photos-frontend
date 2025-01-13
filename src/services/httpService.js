@@ -10,13 +10,10 @@ const api = axios.create({
   },
 });
 
-// Intercept requests to add authentication token if available
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token'); // Example: using localStorage for auth tokens
-    console.log("TOKEN : " , token);
+    const token = localStorage.getItem('token');
     if (token) {
-      // config.headers['Authorization'] = token;
       config.headers['Authorization'] = `Bearer ${token}`;
     }
     return config;
@@ -26,17 +23,9 @@ api.interceptors.request.use(
   }
 );
 
-// Intercept responses to handle errors globally
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    // You can handle specific status codes here, like 401 or 403
-    // if (error.response && error.response.status === 401) {
-    //   // For example: redirect to login page if not authorized
-    //   if(!window.location.href.includes("/signin")){
-    //     window.location = '/signin';
-    //   }
-    // }
     return Promise.reject(error);
   }
 );

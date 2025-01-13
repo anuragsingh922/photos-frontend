@@ -31,7 +31,6 @@ export default function Signup(props) {
       );
 
       const json = await responce.json();
-      console.log(json);
 
       if (json.success) {
         localStorage.setItem("token", json.authtoken);

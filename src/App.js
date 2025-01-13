@@ -47,6 +47,7 @@ function App() {
             element={
               <>
                 <UserNavbar />
+                <Alert alert={alert} />
                 {/* <Main showalert={showalert} /> */}
                 <View showalert={showalert} />
               </>

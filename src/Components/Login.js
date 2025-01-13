@@ -38,7 +38,7 @@ function Login(props) {
       props.showalert("Invalid Usename or passsword" , 'danger');
     }
   }catch(err){
-    console.log("Error during login ", err);
+    console.error("Error during login ", err);
   }
 
   }

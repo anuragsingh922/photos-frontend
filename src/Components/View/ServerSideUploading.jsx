@@ -20,11 +20,9 @@ export default function ViewS() {
     // `${process.env.REACT_APP_BACKEND_URL}/api/photos/getphotos`,
     try {
       seterr("");
-      console.log("Fetching Files");
       const res = await api.get(
         `${process.env.REACT_APP_BACKEND_URL}/api/files/server`
       );
-      console.log("Responsee:", res.data);
       const items = res?.data;
       if (items) {
         setImages(items); // Set the files received from the backend
@@ -78,7 +76,6 @@ export default function ViewS() {
               },
             }
           );
-          console.log("Image uploaded successfully");
           await fetchImages();
         } catch (error) {
           console.error("Error uploading image:", error);
@@ -89,12 +86,10 @@ export default function ViewS() {
   };
 
   const handleDelete = async (file) => {
-    console.log(file._id);
     const id = file._id;
 
     await api.post("/api/files/server/delete", { id: id });
     await fetchImages();
-    console.log("Deleted successfully.");
   };
 
   return (
